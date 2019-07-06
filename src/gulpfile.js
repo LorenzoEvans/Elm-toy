@@ -12,7 +12,7 @@ const paths = {
 
 gulp.task('elm-init', elm.init);
 
-gulp.task('elm', ['elm-init'], () => {
+gulp.task('elm', ['elm-init'], function () {
     return gulp.src(paths.elm)
         .pipe(plumber())
         .pipe(elm())
@@ -20,7 +20,18 @@ gulp.task('elm', ['elm-init'], () => {
 
 });
 
-gulp.task('connect', () => {
+gulp.task('static', function () {
+    return gulp.src(paths.static)
+        .pipe(plumber())
+        .pipe(gulp.dest(paths.dest))
+});
+
+gulp.task('watch', function () {
+    gulp.watch(paths.elm, ['elm']);
+    gulp.watch(paths.static, ['static'])
+});
+
+gulp.task('connect', function () {
     connect.server({
         root: 'dest',
         port: 3000
