@@ -14,10 +14,16 @@ main =
         , view = view
         }
 
+
 type alias Model =
     { quote : String
     }
 
-init : (Model, Cmd Msg)
+
+init : ( Model, Cmd Msg )
 init =
-    ( Model "", Cmd.none)
+    ( Model "", Cmd.none )
+
+
+type Msg
+    = GetQuote
