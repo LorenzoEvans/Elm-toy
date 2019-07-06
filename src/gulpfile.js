@@ -1,4 +1,4 @@
-const gulp = require('gulp')
+const { task } = require('gulp')
 const elm = require('gulp-elm')
 const gutil = require('gulp-util')
 const plumber = require('gulp-plumber')
@@ -10,23 +10,23 @@ const paths = {
     static: 'src/.*{html,css}'
 };
 
-gulp.task('elm-init', elm.init);
+task('elm-init', elm.init);
 
-gulp.task('elm', ['elm-init'], function () {
-    return gulp.src(paths.elm)
+task('default', gulp.parallel('elm-init'), function () {
+    return task.src(paths.elm)
         .pipe(plumber())
         .pipe(elm())
         .pipe(gulp.dest(paths.dest))
 
 });
 
-gulp.task('static', function () {
-    return gulp.src(paths.static)
+task('static', function () {
+    return task.src(paths.static)
         .pipe(plumber())
-        .pipe(gulp.dest(paths.dest))
+        .pipe(task.dest(paths.dest))
 });
 
-gulp.task('watch', function () {
+task('watch', function () {
     gulp.watch(paths.elm, ['elm']);
     gulp.watch(paths.static, ['static'])
 });
@@ -38,6 +38,6 @@ gulp.task('connect', function () {
     })
 });
 
-gulp.task('build', ['elm', 'static']);
+gulp.task('build', gulp.parallel('elm', 'static'));
 gulp.task('default', ['connect', 'build', 'watch']);
 
