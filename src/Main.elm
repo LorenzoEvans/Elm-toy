@@ -48,7 +48,8 @@ view model =
         , div [] [ text <| String.fromInt model.count ]
         , button [ onClick Dec ] [ text "Decrement Value" ]
         , button [ onClick Reset ] [ text "Reset" ]
-        , input [ placeholder ]
+        , input [ placeholder "Text to reverse", value model.content, onInput Change] []
+        , div [] [ text (String.reverse model.content)]
         ]
 
 
