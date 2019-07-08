@@ -61,7 +61,6 @@ update msg model =
         Age age ->
             { model | age = age}
 
-
 view : Model -> Html Msg
 view model =
     div []
@@ -70,7 +69,7 @@ view model =
         , button [ onClick Dec ] [ text "Decrement Value" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change] []
-        , input [ placeholder "Enter your age", value model.age, onInput Age] []
+        , input [ placeholder "Enter your age", value (String.fromInt model.age), onInput (String.fromInt model.age)] []
         , div [] [ text (String.reverse model.content)]
         , div []
         [ viewInput "text" "Name" model.name Name
