@@ -65,7 +65,12 @@ view model =
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change] []
         , div [] [ text (String.reverse model.content)]
+        , div []
+        [ viewInput "text" "Name" model.name Name
+        , viewInput "password" "Password" model.password Password
+        , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf]
         ]
+
 
 
 main : Program () Model Msg
