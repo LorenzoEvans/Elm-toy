@@ -4,6 +4,7 @@ import Browser
 import Html exposing (Html, Attribute, button, div, input, text)
 import Html.Attributes exposing ( .. )
 import Html.Events exposing (onClick, onInput)
+import String exposing (..)
 
 
 type alias Model =
@@ -12,6 +13,7 @@ type alias Model =
     , name : String
     , password : String
     , pw_conf : String
+    , age : String
     }
 
 
@@ -22,9 +24,11 @@ initialModel =
     , name = ""
     , password = ""
     , pw_conf = ""
+    , age = ""
     }
 
 
+type Age = String | Int
 type Msg
     = Inc
     | Dec
@@ -33,6 +37,7 @@ type Msg
     | Name String
     | Password String
     | Pw_conf String
+    | Age String
 
 
 update : Msg -> Model -> Model
@@ -54,6 +59,8 @@ update msg model =
             { model | password = pw}
         Pw_conf pw_conf ->
             { model | pw_conf = pw_conf}
+        Age age ->
+            { model | age = age}
 
 
 view : Model -> Html Msg
@@ -68,13 +75,18 @@ view model =
         , div []
         [ viewInput "text" "Name" model.name Name
         , viewInput "password" "Password" model.password Password
-        , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf]
+        , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf
+        , ageInput "age" "Enter your age" model.age Age]
         , viewValidator model
         ]
 
 viewInput : String -> String -> String -> (String -> msg) -> Html msg
 viewInput t p v toMsg =
     input [ type_ t, placeholder p, value v, onInput toMsg ] []
+
+--ageInput : String -> String -> String -> (String -> msg) -> Html msg
+ageInput t p v toMsg  =
+    input [type_ t, placeholder p, value v, onInput toMsg]
 
 viewValidator : Model -> Html msg
 viewValidator model =
