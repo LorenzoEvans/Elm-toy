@@ -69,9 +69,19 @@ view model =
         [ viewInput "text" "Name" model.name Name
         , viewInput "password" "Password" model.password Password
         , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf]
+        , viewValidator model
         ]
 
+viewInput : String -> String -> String -> (String -> msg) -> Html msg
+viewInput t p v toMsg =
+    input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
+viewValidator : Model -> Html msg
+viewValidator model =
+    if model.password == model.pw_conf then
+        div [ style "color" "green"] [ text "OK"]
+    else
+        div [ style "color" "red"] [ text "Passwords do not match!"]
 
 main : Program () Model Msg
 main =
