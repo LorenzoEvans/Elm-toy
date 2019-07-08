@@ -1,20 +1,29 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, text)
+import Html exposing (Html, Attribute, button, div, input, text)
+import Html.Attributes exposing ( .. )
 import Html.Events exposing (onClick, onInput)
 
 
 type alias Model =
-    { count : Int }
+    { count : Int
+    , content : String
+    }
 
 
 initialModel : Model
 initialModel =
-    { count = 0 }
+    { count = 0
+    , content = ""
+    }
 
 
-type Msg = Inc | Dec | Reset
+type Msg
+    = Inc
+    | Dec
+    | Reset
+    | Change String
 
 
 update : Msg -> Model -> Model
@@ -28,15 +37,18 @@ update msg model =
 
         Reset ->
             { model | count = 0 }
+        Change newContent ->
+            { model | content = newContent}
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Inc ] [ text "+1" ]
+        [ button [ onClick Inc ] [ text "Increment Value" ]
         , div [] [ text <| String.fromInt model.count ]
-        , button [ onClick Dec ] [ text "-1" ]
-        , button [ onClick Reset ] [ text "Reset"]
+        , button [ onClick Dec ] [ text "Decrement Value" ]
+        , button [ onClick Reset ] [ text "Reset" ]
+        , input [ placeholder ]
         ]
 
 
@@ -47,4 +59,3 @@ main =
         , view = view
         , update = update
         }
-
