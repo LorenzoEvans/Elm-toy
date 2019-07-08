@@ -9,6 +9,9 @@ import Html.Events exposing (onClick, onInput)
 type alias Model =
     { count : Int
     , content : String
+    , name : String
+    , password : String
+    , pw_conf : String
     }
 
 
@@ -16,6 +19,9 @@ initialModel : Model
 initialModel =
     { count = 0
     , content = ""
+    , name = ""
+    , password = ""
+    , pw_conf = ""
     }
 
 
@@ -24,6 +30,9 @@ type Msg
     | Dec
     | Reset
     | Change String
+    | Name String
+    | Password String
+    | Pw_conf String
 
 
 update : Msg -> Model -> Model
@@ -39,6 +48,12 @@ update msg model =
             { model | count = 0 }
         Change newContent ->
             { model | content = newContent}
+        Name name_val ->
+            { model | name = name_val}
+        Password pw ->
+            { model | password = pw}
+        Pw_conf pw_conf ->
+            { model | pw_conf = pw_conf}
 
 
 view : Model -> Html Msg
