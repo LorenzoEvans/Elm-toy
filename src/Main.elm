@@ -7,8 +7,9 @@ import Html.Events exposing (..)
 type alias Model =
     { count : Int }
 
-init: Model
-init =
+initialModel : Model
+
+initialModel =
     {count = 0}
 
 type Msg = Inc | Dec | Reset
@@ -25,5 +26,16 @@ update msg model =
 
 view : Model -> Html Msg
 view =
+    div []
+    [ button [ onClick Inc ] [ text "Increment Value."]
+    , div [] [ text <| String.fromInt initialModel.count]
+    , button [ onClick Dec ] [ text "Decrement Value."]
+    , button [ onClick Reset ] [ text "Reset Value."]
+    ]
 
 main : Program () Model Msg
+main =
+    Browser.sandbox
+        { init = initialModel
+        , view = view
+        , update = update}
