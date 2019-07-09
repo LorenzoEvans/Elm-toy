@@ -70,6 +70,7 @@ view model =
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change] []
         , input [ placeholder "Enter your age", value model.age, onInput Age] []
+        , ageValidator model
         , div [] [ text (String.reverse model.content)]
         , div []
         [ viewInput "text" "Name" model.name Name
@@ -83,16 +84,15 @@ viewInput : String -> String -> String -> (String -> msg) -> Html msg
 viewInput t p v toMsg =
     input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
---ageInput : String -> String -> String -> (String -> msg) -> Html msg
---ageInput t p v toMsg  =
-    --input [type_ t, placeholder p, value v, onInput toMsg]
-
---ageValidator : Model -> Html msg
---ageValidator model =
---    if model.age < 0 || model.age > 120 then
---        div [ style "color" "red"] [ text "Age is out of acceptable range."]
---     else
---        div [ style "color" "green"] [ text "OK"]
+ageValidator : Model -> Html msg
+ageValidator model =
+    let
+        int_age = Maybe.withDefault 0 (String.toInt model.age)
+    in
+    if int_age < 0 || int_age > 120 then
+        div [ style "color" "red"] [ text "Age is out of acceptable range."]
+     else
+        div [ style "color" "green"] [ text "OK"]
 viewValidator : Model -> Html msg
 viewValidator model =
     if model.password == model.pw_conf then
