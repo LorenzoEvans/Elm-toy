@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, Attribute, button, div, input, text, ol, li)
+import Html exposing (Html, Attribute, button, div, input, text, ul, li)
 import Html.Attributes exposing ( .. )
 import Html.Events exposing (onClick, onInput)
 import String exposing (..)
@@ -96,24 +96,19 @@ ageValidator model =
 viewValidator : Model -> Html msg
 viewValidator model =
     if model.password == model.pw_conf && (length model.password) > 8 then
-        secure = False
-        let
-            pw_check pw =
-                if String.any isDigit pw and String.any isUpper pw then
-                    secure = True
-                    div [ style "color" "green"] [ text "OK"]
-                 else
-                    div [ style "color" "red"] [text "Password must contain numbers, uppercase characters"]
-        in
-        if secure then
+        if String.any isDigit model.password && String.any isUpper model.password then
             div [ style "color" "green"] [ text "OK"]
+         else
+            div [ style "color" "red"] [text "Password must contain numbers, uppercase characters"]
     else
         div [ style "border" " 1px solid black"]
         [ div [ style "color" "red"] [ text "Password doesn't meet requirements."]
         ,
-        ol [] [ text "Make sure your passwords match!" ]
-        ,
-        ol [] [ text "Make sure your password(s) are over 8 characters in length."]
+        ul []
+        [ li [] [text "Make sure your passwords match!"]
+        , li [] [ text "Make sure your password(s) are over 8 characters in length."]
+        , li [] [text "Password must contain numbers, uppercase characters"]
+        ]
         ]
 
 main : Program () Model Msg
