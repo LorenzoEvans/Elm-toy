@@ -76,15 +76,15 @@ view model =
         , button [ onClick Dec ] [ text "Decrement Value" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change ] []
-        , input [ placeholder "Enter your age", value model.age, onInput Age ] []
-        , ageValidator model
         , div [] [ text (String.reverse model.content) ]
+        , input [ placeholder "Enter your age", value model.age, onInput Age ] []
         , div []
             [ viewInput "text" "Name" model.name Name
             , viewInput "password" "Password" model.password Password
             , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf
             , viewValidator model
             ]
+        , ageValidator model
         ]
 
 
@@ -99,8 +99,8 @@ ageValidator model =
         int_age =
             Maybe.withDefault 0 (String.toInt model.age)
     in
-    if int_age < 0 || int_age > 120 then
-        div [ style "color" "red" ] [ text "Age is out of acceptable range." ]
+    if int_age < 0 || int_age > 120 || model.age == "" then
+        div [ style "color" "red" ] [ text "Age field is out of acceptable range or empty." ]
 
     else
         div [ style "color" "green" ] [ text "OK" ]
