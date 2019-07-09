@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, Attribute, button, div, input, text)
+import Html exposing (Html, Attribute, button, div, input, text, ol, li)
 import Html.Attributes exposing ( .. )
 import Html.Events exposing (onClick, onInput)
 import String exposing (..)
@@ -95,10 +95,24 @@ ageValidator model =
         div [ style "color" "green"] [ text "OK"]
 viewValidator : Model -> Html msg
 viewValidator model =
-    if model.password == model.pw_conf then
-        div [ style "color" "green"] [ text "OK"]
+    if model.password == model.pw_conf && (length model.password) > 8 then
+        let
+            secure = False
+            num_set = [1, 2, 3, 4, 5, 6, 7, 8, 9,0]
+            pw_check pw =
+
+
+        in
+        if
+            div [ style "color" "green"] [ text "OK"]
     else
-        div [ style "color" "red"] [ text "Passwords do not match!"]
+        div [ style "border" " 1px solid black"]
+        [ div [ style "color" "red"] [ text "Password doesn't meet requirements."]
+        ,
+        ol [] [ text "Make sure your passwords match!" ]
+        ,
+        ol [] [ text "Make sure your password(s) are over 8 characters in length."]
+        ]
 
 main : Program () Model Msg
 main =
