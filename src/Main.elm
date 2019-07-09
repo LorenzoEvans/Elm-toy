@@ -5,6 +5,7 @@ import Html exposing (Html, Attribute, button, div, input, text, ol, li)
 import Html.Attributes exposing ( .. )
 import Html.Events exposing (onClick, onInput)
 import String exposing (..)
+import Char exposing ( isDigit, isLower, isUpper)
 
 
 type alias Model =
@@ -15,7 +16,6 @@ type alias Model =
     , pw_conf : String
     , age : String
     }
-
 
 initialModel : Model
 initialModel =
@@ -96,14 +96,16 @@ ageValidator model =
 viewValidator : Model -> Html msg
 viewValidator model =
     if model.password == model.pw_conf && (length model.password) > 8 then
+        secure = False
         let
-            secure = False
-            num_set = [1, 2, 3, 4, 5, 6, 7, 8, 9,0]
             pw_check pw =
-
-
+                if String.any isDigit pw and String.any isUpper pw then
+                    secure = True
+                    div [ style "color" "green"] [ text "OK"]
+                 else
+                    div [ style "color" "red"] [text "Password must contain numbers, uppercase characters"]
         in
-        if
+        if secure then
             div [ style "color" "green"] [ text "OK"]
     else
         div [ style "border" " 1px solid black"]
