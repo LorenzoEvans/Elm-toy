@@ -13,7 +13,7 @@ type alias Model =
     , name : String
     , password : String
     , pw_conf : String
-    , age : Int
+    , age : String
     }
 
 
@@ -24,7 +24,7 @@ initialModel =
     , name = ""
     , password = ""
     , pw_conf = ""
-    , age = 0
+    , age = ""
     }
 
 
@@ -36,7 +36,7 @@ type Msg
     | Name String
     | Password String
     | Pw_conf String
-    | Age Int
+    | Age String
 
 
 update : Msg -> Model -> Model
@@ -69,7 +69,7 @@ view model =
         , button [ onClick Dec ] [ text "Decrement Value" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change] []
-        , input [ placeholder "Enter your age", value (String.fromInt model.age), onInput (String.fromInt model.age)] []
+        , input [ placeholder "Enter your age", value model.age, onInput Age] []
         , div [] [ text (String.reverse model.content)]
         , div []
         [ viewInput "text" "Name" model.name Name
@@ -87,12 +87,12 @@ viewInput t p v toMsg =
 --ageInput t p v toMsg  =
     --input [type_ t, placeholder p, value v, onInput toMsg]
 
-ageValidator : Model -> Html msg
-ageValidator model =
-    if model.age < 0 || model.age > 120 then
-        div [ style "color" "red"] [ text "Age is out of acceptable range."]
-     else
-        div [ style "color" "green"] [ text "OK"]
+--ageValidator : Model -> Html msg
+--ageValidator model =
+--    if model.age < 0 || model.age > 120 then
+--        div [ style "color" "red"] [ text "Age is out of acceptable range."]
+--     else
+--        div [ style "color" "green"] [ text "OK"]
 viewValidator : Model -> Html msg
 viewValidator model =
     if model.password == model.pw_conf then
