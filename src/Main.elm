@@ -1,11 +1,11 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, Attribute, button, div, input, text, ul, li)
-import Html.Attributes exposing ( .. )
+import Char exposing (isDigit, isLower, isUpper)
+import Html exposing (Attribute, Html, button, div, input, li, text, ul)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import String exposing (..)
-import Char exposing ( isDigit, isLower, isUpper)
 
 
 type alias Model =
@@ -16,6 +16,7 @@ type alias Model =
     , pw_conf : String
     , age : String
     }
+
 
 initialModel : Model
 initialModel =
@@ -50,16 +51,22 @@ update msg model =
 
         Reset ->
             { model | count = 0 }
+
         Change newContent ->
-            { model | content = newContent}
+            { model | content = newContent }
+
         Name name_val ->
-            { model | name = name_val}
+            { model | name = name_val }
+
         Password pw ->
-            { model | password = pw}
+            { model | password = pw }
+
         Pw_conf pw_conf ->
-            { model | pw_conf = pw_conf}
+            { model | pw_conf = pw_conf }
+
         Age age ->
-            { model | age = age}
+            { model | age = age }
+
 
 view : Model -> Html Msg
 view model =
@@ -68,48 +75,56 @@ view model =
         , div [] [ text <| String.fromInt model.count ]
         , button [ onClick Dec ] [ text "Decrement Value" ]
         , button [ onClick Reset ] [ text "Reset" ]
-        , input [ placeholder "Text to reverse", value model.content, onInput Change] []
-        , input [ placeholder "Enter your age", value model.age, onInput Age] []
+        , input [ placeholder "Text to reverse", value model.content, onInput Change ] []
+        , input [ placeholder "Enter your age", value model.age, onInput Age ] []
         , ageValidator model
-        , div [] [ text (String.reverse model.content)]
+        , div [] [ text (String.reverse model.content) ]
         , div []
-        [ viewInput "text" "Name" model.name Name
-        , viewInput "password" "Password" model.password Password
-        , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf
-        , viewValidator model
+            [ viewInput "text" "Name" model.name Name
+            , viewInput "password" "Password" model.password Password
+            , viewInput "password" "Re-enter Password" model.pw_conf Pw_conf
+            , viewValidator model
+            ]
         ]
-        ]
+
 
 viewInput : String -> String -> String -> (String -> msg) -> Html msg
 viewInput t p v toMsg =
     input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
+
 ageValidator : Model -> Html msg
 ageValidator model =
     let
-        int_age = Maybe.withDefault 0 (String.toInt model.age)
+        int_age =
+            Maybe.withDefault 0 (String.toInt model.age)
     in
     if int_age < 0 || int_age > 120 then
-        div [ style "color" "red"] [ text "Age is out of acceptable range."]
-     else
-        div [ style "color" "green"] [ text "OK"]
+        div [ style "color" "red" ] [ text "Age is out of acceptable range." ]
+
+    else
+        div [ style "color" "green" ] [ text "OK" ]
+
+
 viewValidator : Model -> Html msg
 viewValidator model =
-    if model.password == model.pw_conf && (length model.password) > 8 then
+    if model.password == model.pw_conf && length model.password > 8 then
         if String.any isDigit model.password && String.any isUpper model.password then
-            div [ style "color" "green"] [ text "OK"]
-         else
-            div [ style "color" "red"] [text "Password must contain numbers, uppercase characters"]
+            div [ style "color" "green" ] [ text "OK" ]
+
+        else
+            div [ style "color" "red" ] [ text "Password must contain numbers, uppercase characters" ]
+
     else
-        div [ style "border" " 1px solid black"]
-        [ div [ style "color" "red"] [ text "Password doesn't meet requirements."]
-        ,
-        ul []
-        [ li [] [text "Make sure your passwords match!"]
-        , li [] [ text "Make sure your password(s) are over 8 characters in length."]
-        , li [] [text "Password must contain numbers, uppercase characters"]
-        ]
-        ]
+        div [ style "border" " 1px solid black" ]
+            [ div [ style "color" "red" ] [ text "Password doesn't meet requirements." ]
+            , ul []
+                [ li [] [ text "Make sure your passwords match!" ]
+                , li [] [ text "Make sure your password(s) are over 8 characters in length." ]
+                , li [] [ text "Password must contain numbers, uppercase characters" ]
+                ]
+            ]
+
 
 main : Program () Model Msg
 main =
