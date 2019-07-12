@@ -7,7 +7,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import String exposing (..)
 
-
 type alias Model =
     { count : Int
     , content : String
@@ -77,7 +76,7 @@ view model =
         , button [ onClick Reset ] [ text "Reset" ]
         , input [ placeholder "Text to reverse", value model.content, onInput Change ] []
         , div [] [ text (String.reverse model.content) ]
-        , input [ placeholder "Enter your age", value model.age, onInput Age ] []
+        , input [ placeholder (String.fromInt 0), value model.age, onInput Age ] []
         , div []
             [ viewInput "text" "Name" model.name Name
             , viewInput "password" "Password" model.password Password
