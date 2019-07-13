@@ -42,9 +42,13 @@ subscription : Model -> Sub Msg
 subscription model =
     Sub.none
 
+view : Model -> Html Msg
+view model =
+    div [] [ h2 [] [text "Random Cat Gifs."]
+    , viewGif model
+    ]
 
-
-
+viewGifs model =
 main =
     Browser.element
         { init = init
