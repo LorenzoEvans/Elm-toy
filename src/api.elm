@@ -16,8 +16,8 @@ type Msg
 
 
 type ApiResult error value
-    = Ok value
-    | Err error
+    = Resolved value
+    | Rejected error
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
