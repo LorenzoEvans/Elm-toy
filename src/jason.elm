@@ -48,7 +48,20 @@ view model =
     , viewGif model
     ]
 
-viewGifs model =
+viewGif model =
+    case model of
+        Failure ->
+            div []
+            [ text "I could not load this cat gif, sorry."
+            , button [ onClick More] [ text "Try again"]
+            ]
+        Loading ->
+            text "Loading.."
+        Success url ->
+            div [] [
+            button [onClick More, style "display" "block"] [ text "More cat gifs!"]
+            . img [ src url]
+            ]
 main =
     Browser.element
         { init = init
