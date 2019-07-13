@@ -14,12 +14,6 @@ type Model
 type Msg
     = GotText (Result Http.Error String)
 
-
-type ApiResult error value
-    = Resolved value
-    | Rejected error
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -54,8 +48,13 @@ init : () -> ( Model, Cmd Msg )
 
 
 
--- In addition to our initial model, we have a command we want to execute immediately,
--- that will eventually produce a Msg that will be fed to our update function.
+{-
+    In addition to our initial model, we have a command we want to execute immediately,
+    that will eventually produce a Msg that will be fed to our update function.
+    {-
+     "Our programs can Command the runtime to make http requests."
+    -}
+-}
 
 
 init _ =
