@@ -7,10 +7,13 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode exposing (Decoder, field, string)
 
-
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( Loading, CatGif )
+main =
+    Browser.element
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
 
 
 type Model
@@ -18,6 +21,9 @@ type Model
     | Loading
     | Success String
 
+init : () -> ( Model, Cmd Msg )
+init _ =
+    (Loading, getCatGif)
 
 type Msg
     = More
@@ -28,7 +34,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         More ->
-            ( Loading, CatGif )
+            ( Loading, getCatGif )
 
         GotGif result ->
             case result of
@@ -38,34 +44,47 @@ update msg model =
                 Err _ ->
                     ( Failure, Cmd.none )
 
-subscription : Model -> Sub Msg
-subscription model =
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
     Sub.none
+
 
 view : Model -> Html Msg
 view model =
-    div [] [ h2 [] [text "Random Cat Gifs."]
-    , viewGif model
-    ]
+    div []
+        [ h2 [] [ text "Random Cat Gifs." ]
+        , viewGif model
+        ]
 
+viewGif : Model -> Html Msg
 viewGif model =
     case model of
         Failure ->
             div []
-            [ text "I could not load this cat gif, sorry."
-            , button [ onClick More] [ text "Try again"]
-            ]
+                [ text "I could not load this cat gif, sorry."
+                , button [ onClick More ] [ text "Try again" ]
+                ]
+
         Loading ->
             text "Loading.."
+
         Success url ->
-            div [] [
-            button [onClick More, style "display" "block"] [ text "More cat gifs!"]
-            . img [ src url]
-            ]
-main =
-    Browser.element
-        { init = init
-        , update = update
-        , subscription = subscription
-        , view = view
-        }
+            div []
+                [ button [ onClick More, style "display" "block" ] [ text "More cat gifs!" ]
+                    , img [ src url ] []
+                ]
+
+
+
+getCatGif : Cmd Msg
+getCatGif =
+  Http.get
+    { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cat"
+    , expect = Http.expectJson GotGif gifDecoder
+    }
+
+gifDecoder : Decoder String
+gifDecoder =
+    field "data" (field "image_url" string)
+

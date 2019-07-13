@@ -1,4 +1,4 @@
-module Main exposing (ApiResult(..), Model(..), Msg(..), init, main, subscriptions, update, view)
+module Main exposing (Model(..), Msg(..), init, main, subscriptions, update, view)
 
 import Browser
 import Html exposing (Html, pre, text)
