@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Browser
+import Browser exposing (UrlRequest)
 import Browser.Navigation as Nav exposing (Key)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -9,22 +9,21 @@ import Url exposing (Url)
 
 type alias Model =
     { key : Nav.Key
-    , url : Url.Url
+    , url : Url
     }
-
 type Msg =
-	LinkClicked Browser.UrlRequest
+	  LinkClicked UrlRequest
 	| UrlChanged Url
 
 
-init : () -> Url.Url -> Key -> ( Model, Cmd msg )
+init : () -> Url -> Key -> ( Model, Cmd msg )
 init flags url key =
     ( Model key url, Cmd.none)
 
 view : Model -> Document msg
 
 
-update : msg -> Model -> ( Model, Cmd msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         LinkClicked urlRequest ->
