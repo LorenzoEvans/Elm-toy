@@ -14,7 +14,8 @@ type alias Model =
 
 
 init : () -> Url.Url -> Key -> ( Model, Cmd msg )
-
+init flags url key =
+    ( Model key url, Cmd.none)
 
 view : Model -> Document msg
 
