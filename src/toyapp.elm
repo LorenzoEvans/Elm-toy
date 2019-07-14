@@ -30,7 +30,7 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url)
+                    ( model, Nav.pushUrl model.key (Url.toString url))
                 Browser.External href ->
                     ( model, Nav.load href)
 		UrlChanged url ->
