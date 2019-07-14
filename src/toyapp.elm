@@ -1,10 +1,10 @@
 module Main exposing (main)
 
 import Browser
-import Browser.Navigation as Nav
+import Browser.Navigation as Nav exposing (Key)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Url
+import Url exposing (Url)
 
 
 type alias Model =
@@ -13,7 +13,7 @@ type alias Model =
     }
 
 
-init : () -> Url -> Key -> ( Model, Cmd msg )
+init : () -> Url.Url -> Key -> ( Model, Cmd msg )
 
 
 view : Model -> Document msg
