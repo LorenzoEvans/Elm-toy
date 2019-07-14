@@ -24,6 +24,7 @@ type Model
 init : () -> ( Model, Cmd Msg )
 init _ =
     (Loading, getCatGif)
+--    This is how you initialize an app with data, so that it loads with content available.
 
 type Msg
     = More
