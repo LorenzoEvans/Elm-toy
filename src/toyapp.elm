@@ -25,6 +25,13 @@ view : Model -> Document msg
 
 
 update : msg -> Model -> ( Model, Cmd msg )
+update msg model =
+    case msg of
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url)
+
 
 
 subscriptions : Model -> Sub msg
