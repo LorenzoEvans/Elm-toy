@@ -11,35 +11,52 @@ type alias Model =
     { key : Nav.Key
     , url : Url
     }
-type Msg =
-  LinkClicked UrlRequest
-  | UrlChanged Url
+
+
+type Msg
+    = LinkClicked UrlRequest
+    | UrlChanged Url
 
 
 init : () -> Url -> Key -> ( Model, Cmd msg )
 init flags url key =
-  ( Model key url, Cmd.none)
+    ( Model key url, Cmd.none )
+
 
 view : Model -> Document msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    LinkClicked urlRequest ->
-      case urlRequest of
-        Browser.Internal url ->
-          ( model, Nav.pushUrl model.key (Url.toString url))
-        Browser.External href ->
-          ( model, Nav.load href )
-    UrlChanged url ->
-      ({model | url = url}
-      , Cmd.none)
+    case msg of
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
 
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            ( { model | url = url }
+            , Cmd.none
+            )
 
 
 
 subscriptions : Model -> Sub msg
+subscriptions _ =
+    Sub.none
+
+
+view : Model -> Browser.Document Msg
+view model =
+    { title = "Url Interceptor"
+    , body =
+        [ text "The current url is: "
+        , b [] [ text (Url.toString model.url) ]
+        ]
+    }
 
 
 onUrlRequest : UrlRequest -> msg
@@ -50,11 +67,11 @@ onUrlChange : Url -> msg
 
 main : Program () Model Msg
 main =
-  Browser.application
-    { init = init
-    , view = view
-    , update = update
-    , subscriptions = subscriptions
-    , onUrlRequest = UrlChanged
-    , onUrlChange = LinkClicked
-    }
+    Browser.application
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        , onUrlRequest = UrlChanged
+        , onUrlChange = LinkClicked
+        }
