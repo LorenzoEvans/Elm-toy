@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Browser exposing ()
+import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -31,7 +31,11 @@ update msg model =
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url)
-
+                Browser.External href ->
+                    ( model, Nav.load href)
+		UrlChanged url ->
+		({ model | url = url
+		, Cmd.none})
 
 
 subscriptions : Model -> Sub msg
