@@ -4,7 +4,12 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
 
-init : () -> (Model, Cmd Msg)
+init : () -> Url -> Key -> (Model, Cmd msg)
+view : Model -> Document msg
+update: msg -> Model -> (Model, Cmd msg)
+subscriptions: Model -> Sub msg
+onUrlRequest : UrlRequest -> msg
+onUrlChange: Url -> msg
 
 main =
     Browser.document
