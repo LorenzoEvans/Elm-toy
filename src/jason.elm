@@ -7,6 +7,7 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode exposing (Decoder, field, string)
 
+
 main =
     Browser.element
         { init = init
@@ -21,10 +22,15 @@ type Model
     | Loading
     | Success String
 
+
 init : () -> ( Model, Cmd Msg )
 init _ =
-    (Loading, getCatGif)
+    ( Loading, getCatGif )
+
+
+
 --    This is how you initialize an app with data, so that it loads with content available.
+
 
 type Msg
     = More
@@ -58,6 +64,7 @@ view model =
         , viewGif model
         ]
 
+
 viewGif : Model -> Html Msg
 viewGif model =
     case model of
@@ -73,19 +80,18 @@ viewGif model =
         Success url ->
             div []
                 [ button [ onClick More, style "display" "block" ] [ text "More cat gifs!" ]
-                    , img [ src url ] []
+                , img [ src url ] []
                 ]
-
 
 
 getCatGif : Cmd Msg
 getCatGif =
-  Http.get
-    { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cat"
-    , expect = Http.expectJson GotGif gifDecoder
-    }
+    Http.get
+        { url = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cat"
+        , expect = Http.expectJson GotGif gifDecoder
+        }
+
 
 gifDecoder : Decoder String
 gifDecoder =
     field "data" (field "image_url" string)
-
