@@ -22,10 +22,6 @@ init : () -> Url -> Key -> ( Model, Cmd msg )
 init flags url key =
     ( Model key url, Cmd.none )
 
-
-view : Model -> Document msg
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -55,10 +51,19 @@ view model =
     , body =
         [ text "The current url is: "
         , b [] [ text (Url.toString model.url) ]
+        , ul []
+            [ viewLink "/home"
+						, viewLink "/profile"
+						, viewLink "/reviews/the-century-of-the-self"
+						, viewLink "/reviews/public-opinion"
+						, viewLink "/reviews/shah-of-shahs"
+            ]
         ]
     }
 
-
+viewLink: String -> Html msg
+viewLink path =
+    li [] [a [href path]
 onUrlRequest : UrlRequest -> msg
 
 
