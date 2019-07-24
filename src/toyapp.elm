@@ -29,7 +29,7 @@ type Route
 
 type RouteTwo
     = BlogPost Int String
-    | BlogPost (Maybe String)
+    | BlogQuery (Maybe String)
 
 
 routeParser : Parser (Route -> a) a
@@ -90,14 +90,14 @@ viewLink : String -> Html msg
 
 
 
---viewLink path =
---    li [] [a [href path]
+viewLink path =
+    li [] [a [href path] [text path]]
 
 
-onUrlRequest : UrlRequest -> msg
-
-
-onUrlChange : Url -> msg
+--onUrlRequest : UrlRequest -> msg
+--
+--
+--onUrlChange : Url -> msg
 
 
 main : Program () Model Msg
