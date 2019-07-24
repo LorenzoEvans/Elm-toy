@@ -5,6 +5,8 @@ import Browser.Navigation as Nav exposing (Key)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url exposing (Url)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
+import Url.Parser.Query as Query
 
 
 type alias Model =
@@ -18,9 +20,32 @@ type Msg
     | UrlChanged Url
 
 
+type Route
+    = Topic String
+    | Blog Int
+    | User String
+    | Comment String Int
+
+
+type RouteTwo
+    = BlogPost Int String
+    | BlogPost (Maybe String)
+
+
+routeParser : Parser (Route -> a) a
+routeParser =
+    oneOf
+        [ map Topic (s "topic" </> string)
+        , map Blog (s "blog" </> int)
+        , map User (s "user" </> string)
+        , map Comment (s "user" </> string </> s "comment" </> int)
+        ]
+
+
 init : () -> Url -> Key -> ( Model, Cmd msg )
 init flags url key =
     ( Model key url, Cmd.none )
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -39,7 +64,6 @@ update msg model =
             )
 
 
-
 subscriptions : Model -> Sub msg
 subscriptions _ =
     Sub.none
@@ -53,17 +77,23 @@ view model =
         , b [] [ text (Url.toString model.url) ]
         , ul []
             [ viewLink "/home"
-						, viewLink "/profile"
-						, viewLink "/reviews/the-century-of-the-self"
-						, viewLink "/reviews/public-opinion"
-						, viewLink "/reviews/shah-of-shahs"
+            , viewLink "/profile"
+            , viewLink "/reviews/the-century-of-the-self"
+            , viewLink "/reviews/public-opinion"
+            , viewLink "/reviews/shah-of-shahs"
             ]
         ]
     }
 
-viewLink: String -> Html msg
-viewLink path =
-    li [] [a [href path]
+
+viewLink : String -> Html msg
+
+
+
+--viewLink path =
+--    li [] [a [href path]
+
+
 onUrlRequest : UrlRequest -> msg
 
 
