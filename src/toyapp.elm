@@ -68,7 +68,6 @@ subscriptions : Model -> Sub msg
 subscriptions _ =
     Sub.none
 
-
 view : Model -> Browser.Document Msg
 view model =
     { title = "Url Interceptor"
@@ -94,10 +93,10 @@ viewLink path =
     li [] [a [href path] [text path]]
 
 
---onUrlRequest : UrlRequest -> msg
---
---
---onUrlChange : Url -> msg
+onUrlRequest : UrlRequest -> msg
+
+
+onUrlChange : Url -> msg
 
 
 main : Program () Model Msg
